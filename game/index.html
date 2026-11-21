@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Milo's Garden — Spot the Difference</title>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #f3ead8;
+    color: #3a2c1c;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 10px 12px 16px;
+  }
+  header {
+    width: 100%;
+    max-width: 1240px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    padding: 4px 2px 10px;
+  }
+  header h1 {
+    margin: 0;
+    font-size: 26px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  header h1 span { color: #c94f4f; }
+  #roundLabel { font-weight: 600; font-size: 15px; }
+  .spacer { flex: 1; }
+  .stat {
+    font-weight: 700;
+    font-size: 15px;
+    background: #fff8ea;
+    border: 2px solid #d8c49a;
+    border-radius: 10px;
+    padding: 6px 10px;
+    white-space: nowrap;
+  }
+  #timerWrap {
+    width: 170px;
+    height: 14px;
+    background: #e4d3b2;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid #d8c49a;
+  }
+  #timerBar {
+    height: 100%;
+    width: 100%;
+    background: #57b25e;
+    transition: width 0.2s linear;
+  }
+  #timerBar.low { background: #e23b3b; }
+  button {
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    background: #fff8ea;
+    color: #3a2c1c;
+    border: 2px solid #d8c49a;
+    border-radius: 10px;
+    padding: 7px 12px;
+  }
+  button:hover:not(:disabled) { background: #ffe9b8; }
+  button:disabled { opacity: 0.45; cursor: default; }
+  #stageWrap { position: relative; width: 100%; max-width: 1240px; }
+  canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 24px rgba(58, 44, 28, 0.18);
+  }
+  #overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    text-align: center;
+    background: rgba(243, 234, 216, 0.82);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  #overlay.hidden { display: none; }
+  #overlayTitle { margin: 0; font-size: 44px; }
+  #overlayBody { margin: 0; font-size: 18px; max-width: 560px; line-height: 1.5; }
+  #actionBtn { font-size: 19px; padding: 12px 26px; background: #c94f4f; color: #fff; border-color: #a83e3e; }
+  #actionBtn:hover { background: #d95f5f; }
+  footer {
+    width: 100%;
+    max-width: 1240px;
+    padding-top: 10px;
+    font-size: 14px;
+    color: #6b5a41;
+    text-align: center;
+  }
+  footer kbd {
+    background: #fff8ea;
+    border: 1px solid #d8c49a;
+    border-radius: 5px;
+    padding: 1px 6px;
+    font-family: inherit;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>🐱 Milo's <span>Garden</span></h1>
+  <span id="roundLabel">Round 1 / 3 · Garden Morning</span>
+  <div class="spacer"></div>
+  <div id="timerWrap"><div id="timerBar"></div></div>
+  <span class="stat" id="timerText">1:30</span>
+  <span class="stat" id="scoreText">Score 0</span>
+  <span class="stat" id="foundText">Found 0 / 7</span>
+  <button id="hintBtn" type="button">💡 Hint (3)</button>
+  <button id="soundBtn" type="button">🔊 Sound on</button>
+  <button id="restartBtn" type="button">↻ Restart</button>
+</header>
+<div id="stageWrap">
+  <canvas id="stage" width="1240" height="600"></canvas>
+  <div id="overlay" class="hidden">
+    <h2 id="overlayTitle"></h2>
+    <p id="overlayBody"></p>
+    <button id="actionBtn" type="button"></button>
+  </div>
+</div>
+<footer>
+  Click a difference on either picture to ring it · <kbd>H</kbd> hint · <kbd>P</kbd> pause · <kbd>R</kbd> restart · <kbd>M</kbd> sound · Wrong clicks cost 20 points
+</footer>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
